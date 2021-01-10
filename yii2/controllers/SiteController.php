@@ -64,7 +64,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(Yii::$app->user->isGuest == false)
+        {
+            $role = Yii::$app->user->identity->getRole();
+            switch($role)
+            {
+               case 'Client':
+                  return $this->render('//client/schedule');
+                  break;
+               case 'Dispatcher':
+                  return $this->render('//site/index');
+                  break;
+            }
+        }
+        else
+            return $this->render('index');
     }
 
     /**
