@@ -16,6 +16,13 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+
+    function console_log($data){
+        echo '<script>';
+        echo 'console.log('. json_encode($data) .')';
+        echo '</script>';
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -23,10 +30,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+        $user = \Auth::user();
 
-    public function welcome(){
-        return view('welcome');
+        switch(true)
+        {
+            case $user->isDispatcher():
+                $this->console_log($user);
+                return view('dispatcher/home');
+            case $user->isClient():
+                return view('client/home');
+            default:
+                return view('home');
+        }
     }
 }

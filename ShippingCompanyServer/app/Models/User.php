@@ -41,21 +41,21 @@ class User extends Authenticatable
 
     public function isDispatcher()
     {
-        return ($this->empl_type == DISP_TYPE);
+        return ($this->empl_type == self::DISP_TYPE);
     }
 
     public function isHREmployee()
     {
-        return ($this->empl_type == HR_TYPE);
+        return ($this->empl_type == self::HR_TYPE);
     }
 
     public function isBooker()
     {
-        return ($this->empl_type == BOOK_TYPE);
+        return ($this->empl_type == self::BOOK_TYPE);
     }
 
     public function isClient()
     {
-        return ($this->empl_type == CL_TYPE);
+        return ($this->empl_type == self::CL_TYPE);
     }
 }
