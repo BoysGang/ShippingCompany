@@ -103,9 +103,4 @@ public function console_log($data)
         ]);
     }
 
-    //Получение порта отправления по номеру рейса
-    public function getportstart($id)
-    {
-    	$port = Port::find()->leftJoin()->where("PK_Trip" => $id)->one();
-    }
 }

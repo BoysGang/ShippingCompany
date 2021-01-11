@@ -6,6 +6,7 @@ use \yii\helpers\ArrayHelper;
 
 use app\models\Client;
 use app\models\Trip;
+use app\models\Port;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Request */
@@ -19,20 +20,12 @@ use app\models\Trip;
     <?= $form->field($model, 'PK_Receiver')->dropDownList(ArrayHelper::map(Client::find()->all(), 'PK_Client', 'FullName')) ?>
     <?= $form->field($model, 'PK_Trip')->dropDownList(ArrayHelper::map(Trip::getActiveTrips(), 'PK_Trip', 'PK_Trip')) ?>
 
-    <?= $form->field($model, 'PK_PortSend')->dropDownList($arrState, [
-        'prompt' => 'Выбрать...',
-        'onchange' => '
-            $.post("/client/getportstart?id='. '"+$(this).val(), function (data){
-                            $("select#request-pk_portsend").html(data);
-                });',
-    ]) ?>
+    <?= $form->field($model, 'PK_PortSend')->dropDownList(ArrayHelper::map(Port::find()->all(), 'PK_Port', 'PortName')) ?>
 
-    <?= $form->field($model, 'PK_PortReceive')->textInput() ?>
-
-    <?= $form->field($model, 'RequestStatus')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'PK_PortReceive')->dropDownList(ArrayHelper::map(Port::find()->all(), 'PK_Port', 'PortName')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Добавить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
