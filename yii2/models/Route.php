@@ -54,13 +54,13 @@ class Route extends \yii\db\ActiveRecord
     {
         return [
             'PK_Route' => 'Pk Route',
-            'TimeDuration' => 'Time Duration',
+            'TimeDuration' => 'Продолжительность',
             'IsFirst' => 'Is First',
             'IsLast' => 'Is Last',
             'State' => 'State',
             'PK_Trip' => 'Pk Trip',
-            'PK_PortReceive' => 'Pk Port Receive',
-            'PK_PortSend' => 'Pk Port Send',
+            'PK_PortReceive' => 'Порт отправки',
+            'PK_PortSend' => 'Порт назначения',
         ];
     }
 
@@ -74,6 +74,12 @@ class Route extends \yii\db\ActiveRecord
         return $this->hasOne(Port::className(), ['PK_Port' => 'PK_PortReceive']);
     }
 
+
+    public function getPortReceiveName()
+    {
+        return $this->pKPortReceive->PortName;
+    }
+
     /**
      * Gets query for [[PKPortSend]].
      *
@@ -82,6 +88,11 @@ class Route extends \yii\db\ActiveRecord
     public function getPKPortSend()
     {
         return $this->hasOne(Port::className(), ['PK_Port' => 'PK_PortSend']);
+    }
+
+    public function getPortSendName()
+    {
+        return $this->pKPortSend->PortName;
     }
 
     /**

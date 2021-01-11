@@ -1,6 +1,7 @@
 <?php
 	use yii\bootstrap\NavBar;
 	use yii\helpers\Html;
+    use yii\helpers\Url;
 	use yii\bootstrap\Nav;
 	use yii\grid\GridView;
 ?>
@@ -16,6 +17,10 @@
 </div>
 
 <h1>Заявки пользователя:</h1>
+
+      <p>
+        <?= Html::a('Create Request', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -37,6 +42,14 @@
         	],
             'RequestStatus',
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{view}',
+            'buttons' =>[
+                'view' => function ($url, $model)
+                {
+                    $url = Url::to(['client/viewrequest', 'id' => $model->PK_Request]);
+                    return Html::a('Подробности', $url, ['title' => 'view']);
+                }],
+            ]
         ],
     ]); ?>

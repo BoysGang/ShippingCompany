@@ -47,9 +47,9 @@ class Ship extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_Ship' => 'Pk Ship',
+            'PK_Ship' => 'Корабль',
             'ShipNumber' => 'Ship Number',
-            'ShipName' => 'Ship Name',
+            'ShipName' => 'Название корабля',
             'PK_ShipType' => 'Pk Ship Type',
         ];
     }

@@ -1,8 +1,10 @@
 <?php
 	use yii\bootstrap\NavBar;
 	use yii\helpers\Html;
+	use yii\helpers\Url;
 	use yii\bootstrap\Nav;
 	use yii\grid\GridView;
+
 ?>
 <div class="horizontalMenu">
 	<ul class="nav nav-tabs">
@@ -16,6 +18,7 @@
 </div>
 
 <h1>Расписание рейсов Компании:</h1>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -33,6 +36,15 @@
              'value' => 'ShipName'
             ],
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{view}',
+            'buttons' =>[
+            	'view' => function ($url, $model)
+            	{
+            		$url = Url::to(['client/viewtrip', 'id' => $model->PK_Trip]);
+            		return Html::a('Подробнее..', $url, ['title' => 'view']);
+            	}
+            ]],
         ],
-    ]); ?>
+    ]);
+    ?>

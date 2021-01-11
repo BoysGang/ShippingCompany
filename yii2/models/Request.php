@@ -66,6 +66,9 @@ class Request extends \yii\db\ActiveRecord
             'PK_PortReceive' => 'Порт назначения',
             'PK_PortSend' => 'Порт отправления',
             'RequestStatus' => 'Статус заявки',
+            'ReceiverFullName' => 'Получатель',
+            'PortReceiveName' => 'Порт назначения',
+            'PortSendName' => 'Порт отправления'
         ];
     }
 

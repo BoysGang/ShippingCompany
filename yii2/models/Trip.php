@@ -58,6 +58,7 @@ class Trip extends \yii\db\ActiveRecord
             'DateDeparture' => 'Дата отправки',
             'DateArrival' => 'Дата прибытия',
             'PK_Ship' => 'Корабль',
+            'ShipName' => 'Корабль',
             'FirstPort' => 'Порт отправки',
             'LastPort' => 'Порт назначения'
         ];
@@ -106,12 +107,6 @@ class Trip extends \yii\db\ActiveRecord
         return $strPrice;
     }
 
-public function console_log($data)
-{
-    echo "<script>";
-    echo "console.log(" . json_encode($data) . ")";
-    echo "</script>";
-}
     public function getFirstPort()
     {
         $query = 'select p."PortName" from "Route" a
@@ -128,5 +123,10 @@ public function console_log($data)
                     where a."PK_Trip" = '. $this->PK_Trip .' and a."IsLast" = true';
         $data = Yii::$app->db->createCommand($query)->queryOne();
         return $data['PortName'];
+    }
+
+    public function getActiveTrips()
+    {
+        return Yii::$app->db->createCommand('select * from "Trip" where "DateDeparture" - now() > cast(\'14 days\' as interval)')->queryAll();
     }
 }
