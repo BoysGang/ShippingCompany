@@ -23,14 +23,20 @@
             ['class' => 'yii\grid\SerialColumn'],
             'RequestNum',
             'PK_Trip',
-            'PK_PortSend',
-            'PK_PortReceive',
+            [
+             'attribute' =>'PK_PortSend',
+             'value' => 'PortSendName'
+        	],
+        	[
+            'attribute' => 'PK_PortReceive',
+            'value' => 'PortReceiveName'
+        	],
             [
              'attribute' =>'PK_Receiver',
              'value' => 'ReceiverFullName'
         	],
             'RequestStatus',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],
     ]); ?>

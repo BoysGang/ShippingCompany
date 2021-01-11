@@ -9,15 +9,29 @@ use yii\web\Response;
 use yii\data\ActiveDataProvider;
 
 use app\models\Client;
+use app\models\Trip;
 use app\models\Request;
 use app\models\RequestSearch;
 
 
 class ClientController extends Controller
 {
+
 	public function actionSchedule()
 	{
-		return $this->render('schedule');
+		$query = Trip::find()->select('Trip.*, Route.*')
+			->leftJoin('Route', '"Route"."PK_Trip" = "Trip"."PK_Trip"')
+			->where(['>', 'DateDeparture', date("Y-m-d H:i:s")]);
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('schedule', [
+			'dataProvider' => $dataProvider,
+		]);
 	}
 
 	public function actionRequests()

@@ -61,7 +61,7 @@ class Request extends \yii\db\ActiveRecord
             'PK_Request' => 'Pk Request',
             'RequestNum' => 'Номер заявки',
             'PK_Sender' => 'PK_Sender',
-            'PK_Receiver' => 'PK_Receiver',
+            'PK_Receiver' => 'Получатель',
             'PK_Trip' => 'Рейс',
             'PK_PortReceive' => 'Порт назначения',
             'PK_PortSend' => 'Порт отправления',
@@ -89,18 +89,10 @@ class Request extends \yii\db\ActiveRecord
         return $this->hasOne(Client::className(), ['PK_Client' => 'PK_Sender']);
     }
 
-public function console_log($data)
-{
-    echo "<script>";
-    echo "console.log(" . json_encode($data) . ")";
-    echo "</script>";
-
-}
     //получение имени клиента
     public function getReceiverFullName()
     {
-        $this->console_log($this->attributes);
-        return $this->PKReceiver;
+        return $this->pKReceiver->FullName;
     }
     /**
      * Gets query for [[PKReceiver]].
@@ -122,6 +114,11 @@ public function console_log($data)
         return $this->hasOne(Port::className(), ['PK_Port' => 'PK_PortReceive']);
     }
 
+    public function getPortReceiveName()
+    {
+        return $this->pKPortReceive->PortName;
+    }
+
     /**
      * Gets query for [[PKPortSend]].
      *
@@ -130,6 +127,12 @@ public function console_log($data)
     public function getPKPortSend()
     {
         return $this->hasOne(Port::className(), ['PK_Port' => 'PK_PortSend']);
+    }
+
+    //наименование порта отправления
+    public function getPortSendName()
+    {
+        return $this->pKPortSend->PortName;
     }
 
     /**

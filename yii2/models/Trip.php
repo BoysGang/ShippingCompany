@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use app\models\Ship;
+
 /**
  * This is the model class for table "Trip".
  *
@@ -49,12 +51,15 @@ class Trip extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_Trip' => 'Pk Trip',
+            'PK_Trip' => 'Номер рейса',
             'Cost' => 'Cost',
-            'UnitPrice' => 'Unit Price',
-            'DateDeparture' => 'Date Departure',
-            'DateArrival' => 'Date Arrival',
-            'PK_Ship' => 'Pk Ship',
+            'UnitPrice' => 'UnitPrice',
+            'UnitPriceRubles' => 'Цена за 1кг груза',
+            'DateDeparture' => 'Дата отправки',
+            'DateArrival' => 'Дата прибытия',
+            'PK_Ship' => 'Корабль',
+            'FirstPort' => 'Порт отправки',
+            'LastPort' => 'Порт назначения'
         ];
     }
 
@@ -83,8 +88,45 @@ class Trip extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
+
+    public function getShipName()
+    {
+        $ship = $this->pKShip->ShipNumber . " " . $this->pKShip->ShipName;
+        return $ship;
+    }
+
     public function getPKShip()
     {
         return $this->hasOne(Ship::className(), ['PK_Ship' => 'PK_Ship']);
+    }
+
+    public function getUnitPriceRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->UnitPrice);
+        return $strPrice;
+    }
+
+public function console_log($data)
+{
+    echo "<script>";
+    echo "console.log(" . json_encode($data) . ")";
+    echo "</script>";
+}
+    public function getFirstPort()
+    {
+        $query = 'select p."PortName" from "Route" a
+                    left join "Port" p on a."PK_PortSend" = p."PK_Port"
+                    where a."PK_Trip" = '. $this->PK_Trip .' and a."IsFirst" = true';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+        return $data['PortName'];
+    }
+
+    public function getLastPort()
+    {
+        $query = 'select p."PortName" from "Route" a
+                    left join "Port" p on a."PK_PortReceive" = p."PK_Port"
+                    where a."PK_Trip" = '. $this->PK_Trip .' and a."IsLast" = true';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+        return $data['PortName'];
     }
 }

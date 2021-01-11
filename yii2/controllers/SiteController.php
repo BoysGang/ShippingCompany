@@ -70,10 +70,10 @@ class SiteController extends Controller
             switch($role)
             {
                case 'Client':
-                  return $this->render('//client/schedule');
+                  return Yii::$app->runAction('client/schedule');
                   break;
                case 'Dispatcher':
-                  return $this->render('//site/index');
+                  return Yii::$app->runAction('site/index');
                   break;
             }
         }
