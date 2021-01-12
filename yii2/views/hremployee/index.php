@@ -1,8 +1,6 @@
 <?php
-	use yii\bootstrap\NavBar;
 	use yii\helpers\Html;
     use yii\helpers\Url;
-	use yii\bootstrap\Nav;
 	use yii\grid\GridView;
 ?>
 <div class="horizontalMenu">
@@ -14,7 +12,7 @@
 		<?= Html::a('Контракты', ['hremployee/contracts'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
   	  <li class="nav-item">
-		<?= Html::a('Истекающие контракты', ['client/expiringcontracts'], ['class' => 'btn-secondary btn-lg']) ?>
+		<?= Html::a('Истекающие контракты', ['client/expiredcontracts'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
 	</ul>
 </div>
@@ -24,6 +22,9 @@
 
 <hr>
 <h2> Диспетчеры: </h2>
+<p>
+	<?= Html::a('Добавить диспетчера', ['createdispatcher'], ['class' => 'btn btn-success']) ?>
+</p>
 <?= GridView::widget([
         'dataProvider' => $dataProviderDP,
         'columns' => [
@@ -33,6 +34,21 @@
             'SalaryRubles',
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
+            'buttons' =>[
+            	'delete' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/deletedispatcher', 'id' => $model->PK_Dispatcher]);
+            		return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
+            		['title' => 'delete',
+            		 'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
+            		 'data-method' => 'post',]);
+            	},
+            	'update' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/updatedispatcher', 'id' => $model->PK_Dispatcher]);
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
+            	}
+        		],
             ]
         ],
     ]); ?>
@@ -51,12 +67,30 @@
             'SalaryRubles',
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
-            ]
+            'buttons' =>[
+            	'delete' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/deletebooker', 'id' => $model->PK_Booker]);
+            		return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
+            		['title' => 'delete',
+            		 'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
+            		 'data-method' => 'post',]);
+            	},
+            	'update' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/updatebooker', 'id' => $model->PK_Booker]);
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
+            	}
+            	],
+            ],
         ],
     ]); ?>
 
 <hr>
 <h2> Кадровики:  </h2>
+<p>
+	<?= Html::a('Добавить кадровика', ['createhremployee'], ['class' => 'btn btn-success']) ?>
+</p>
 <?= GridView::widget([
         'dataProvider' => $dataProviderHR,
         'columns' => [
@@ -66,6 +100,21 @@
             'SalaryRubles',
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{update} {delete}',
+            'buttons' =>[
+            	'delete' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/deletehremployee', 'id' => $model->PK_HREmployee]);
+            		return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
+            		['title' => 'delete',
+            		 'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
+            		 'data-method' => 'post',]);
+            	},
+            	'update' => function ($url, $model)
+            	{
+            		$url = Url::to(['hremployee/updatehremployee', 'id' => $model->PK_HREmployee]);
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
+            	}
+            	],
             ]
         ],
     ]); ?>

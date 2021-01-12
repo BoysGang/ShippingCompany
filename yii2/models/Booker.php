@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\validators\UniqueValidator;
 
 /**
  * This is the model class for table "Booker".
@@ -30,9 +31,10 @@ class Booker extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FullName', 'PersonnelNum', 'Salary'], 'required'],
             [['Salary'], 'number'],
             [['FullName'], 'string', 'max' => 100],
-            [['PersonnelNum'], 'string', 'max' => 20],
+            [['PersonnelNum'], 'unique'],
         ];
     }
 

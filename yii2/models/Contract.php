@@ -56,13 +56,14 @@ class Contract extends \yii\db\ActiveRecord
     {
         return [
             'PK_Contract' => 'Pk Contract',
-            'DateConclusion' => 'Date Conclusion',
-            'DateExpiration' => 'Date Expiration',
-            'Salary' => 'Salary',
-            'PK_Ship' => 'Pk Ship',
-            'PK_HREmployee' => 'Pk Hr Employee',
-            'PK_CrewMember' => 'Pk Crew Member',
-            'PK_CrewPosition' => 'Pk Crew Position',
+            'DateConclusion' => 'Дата заключения',
+            'DateExpiration' => 'Дата истечения',
+            'Salary' => 'Заработная плата',
+            'PK_Ship' => 'Корабль',
+            'PK_HREmployee' => 'Заключал контракт, кадровик',
+            'PK_CrewMember' => 'Полное имя',
+            'PK_CrewPosition' => 'Должность на корабле',
+            'SalaryRubles' => 'Заработная плата',
         ];
     }
 
@@ -104,5 +105,14 @@ class Contract extends \yii\db\ActiveRecord
     public function getPKShip()
     {
         return $this->hasOne(Ship::className(), ['PK_Ship' => 'PK_Ship']);
+    }
+
+
+    //получение зарплаты в ру.блях
+    //
+    public function getSalaryRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->Salary);
+        return $strPrice;
     }
 }

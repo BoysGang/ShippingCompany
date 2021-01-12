@@ -30,9 +30,10 @@ class Dispatcher extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FullName', 'PersonnelNum', 'Salary'], 'required'],
             [['Salary'], 'number'],
             [['FullName'], 'string', 'max' => 100],
-            [['PersonnelNum'], 'string', 'max' => 20],
+            [['PersonnelNum'], 'unique'],
         ];
     }
 

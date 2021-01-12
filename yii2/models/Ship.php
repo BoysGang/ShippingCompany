@@ -64,6 +64,11 @@ class Ship extends \yii\db\ActiveRecord
         return $this->hasMany(Contract::className(), ['PK_Ship' => 'PK_Ship']);
     }
 
+    public function getShipNumName()
+    {
+        return $this->ShipName . " - " . $this->ShipNumber;
+    }
+
     /**
      * Gets query for [[PKShipType]].
      *
