@@ -69,12 +69,18 @@ class SiteController extends Controller
             $role = Yii::$app->user->identity->getRole();
             switch($role)
             {
-               case 'Client':
+                case 'Client':
                   return Yii::$app->runAction('client/schedule');
                   break;
-               case 'Dispatcher':
-                  return Yii::$app->runAction('site/index');
+                case 'Dispatcher':
+                  return Yii::$app->runAction('dispatcher/index');
                   break;
+                case 'Booker':
+                  return Yii::$app->runAction('booker/index');
+                  break;
+                case 'Hremployee':
+                  return Yii::$app->runAction('hremployee/index');
+
             }
         }
         else
