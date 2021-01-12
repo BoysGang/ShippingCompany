@@ -80,7 +80,7 @@ class SiteController extends Controller
                   break;
                 case 'Hremployee':
                   return Yii::$app->runAction('hremployee/index');
-
+                  break;
             }
         }
         else

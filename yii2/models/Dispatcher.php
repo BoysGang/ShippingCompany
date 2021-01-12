@@ -43,9 +43,10 @@ class Dispatcher extends \yii\db\ActiveRecord
     {
         return [
             'PK_Dispatcher' => 'Pk Dispatcher',
-            'FullName' => 'Full Name',
-            'PersonnelNum' => 'Personnel Num',
+            'FullName' => 'Полное имя',
+            'PersonnelNum' => 'Табельный номер',
             'Salary' => 'Salary',
+            'SalaryRubles' => 'Заработная плата',
         ];
     }
 
@@ -57,5 +58,11 @@ class Dispatcher extends \yii\db\ActiveRecord
     public function getConsignments()
     {
         return $this->hasMany(Consignment::className(), ['PK_Dispatcher' => 'PK_Dispatcher']);
+    }
+
+    public function getSalaryRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->Salary);
+        return $strPrice;
     }
 }

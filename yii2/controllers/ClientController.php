@@ -18,13 +18,6 @@ use app\models\Route;
 
 class ClientController extends Controller
 {
-
-public function console_log($data)
-{
-    echo "<script>";
-    echo "console.log(" . json_encode($data) . ")";
-    echo "</script>";
-}
 	public function actionSchedule()
 	{
 		$query = Trip::find()->select('Trip.*, Route.*')
