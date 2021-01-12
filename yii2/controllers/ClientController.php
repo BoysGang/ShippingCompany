@@ -92,15 +92,62 @@ public function console_log($data)
 
     public function actionCreate()
     {
-        $model = new Request();
+    	$model = new Request();
+        if (Yii::$app->request->post()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['viewrequest', 'id' => $model->PK_Request]);
+        	$requestNumber = uniqid("q", true);
+        	$userPK = (Client::find()->Select('PK_Client')->where(['FullName' => Yii::$app->user->identity->getUsername()])->one()->PK_Client);
+        	$_POST = Yii::$app->request->post()['Request'];
+
+	        $query = 'select createrequest(\''. $requestNumber . '\', ' .
+	        	$userPK . ', ' .
+	        	$_POST['PK_Receiver'] . ', ' .
+	        	$_POST['PK_Trip'] . ', ' .
+	        	$_POST['PK_PortReceive'] . ', ' .
+	        	$_POST['PK_PortSend'] . ');';
+	        //выполнение запроса
+        	Yii::$app->db->createCommand($query)->execute();
+
+        	//получение PK request
+        	$model = Request::find()->where(['RequestNum' => $requestNumber])->one();
+
+            return $this->actionAddline($model->PK_Request);
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAddline($PK_Request)
+    {
+    	$model = new RequestLine();
+
+    	if($model->load(Yii::$app->request->post()))
+    	{
+        	$_POST = Yii::$app->request->post()['RequestLine'];
+
+	        $query = 'select createrequestline(\'' .
+	        	$_POST['CargoName'] . '\', ' .
+	        	$_POST['CargoAmount'] . ', ' .
+	        	$PK_Request . ');';
+	        //выполнение запроса
+        	Yii::$app->db->createCommand($query)->execute();
+    	}
+
+		$query = RequestLine::find()->where(['PK_Request' => $PK_Request]);
+        $dataProvider = new ActiveDataProvider([
+	    'query' => $query,
+	    'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+    	return $this->render('requestlinecreate', [
+    		'PK_Request' => $PK_Request,
+    		'model' => $model,
+    		'dataProvider' => $dataProvider,
+    	]);
     }
 
 }

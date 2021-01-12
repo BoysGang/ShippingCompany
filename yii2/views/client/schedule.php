@@ -18,8 +18,7 @@
 </div>
 
 <h1>Расписание рейсов Компании:</h1>
-
-
+    </script>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [

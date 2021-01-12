@@ -19,7 +19,7 @@
 <h1>Заявки пользователя:</h1>
 
       <p>
-        <?= Html::a('Create Request', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Подать заявку', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
