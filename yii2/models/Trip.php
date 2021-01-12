@@ -60,7 +60,8 @@ class Trip extends \yii\db\ActiveRecord
             'PK_Ship' => 'Корабль',
             'ShipName' => 'Корабль',
             'FirstPort' => 'Порт отправки',
-            'LastPort' => 'Порт назначения'
+            'LastPort' => 'Порт назначения',
+            'CostInRubles' => 'Общие затраты',
         ];
     }
 
@@ -128,5 +129,11 @@ class Trip extends \yii\db\ActiveRecord
     public function getActiveTrips()
     {
         return Yii::$app->db->createCommand('select * from "Trip" where "DateDeparture" - now() > cast(\'14 days\' as interval)')->queryAll();
+    }
+
+    public function getCostInRubles()
+    {
+        $strCost = str_replace('?', ' руб.', $this->Cost);
+        return $strCost;
     }
 }
