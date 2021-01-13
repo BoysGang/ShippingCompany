@@ -58,4 +58,9 @@ class Dispatcher extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Consignment::className(), ['PK_Dispatcher' => 'PK_Dispatcher']);
     }
+
+    public function getPersonnelnum()
+    {
+        return $this->PersonnelNum;
+    }
 }

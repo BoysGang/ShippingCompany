@@ -42,7 +42,7 @@ class Booker extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_Booker' => 'Pk Booker',
+            'PK_Booker' => 'Бухгалтер',
             'FullName' => 'Full Name',
             'PersonnelNum' => 'Personnel Num',
             'Salary' => 'Salary',
@@ -57,5 +57,10 @@ class Booker extends \yii\db\ActiveRecord
     public function getConsignments()
     {
         return $this->hasMany(Consignment::className(), ['PK_Booker' => 'PK_Booker']);
+    }
+
+    public function getFullname()
+    {
+        return $this->FullName;
     }
 }

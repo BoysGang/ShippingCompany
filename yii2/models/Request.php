@@ -60,7 +60,7 @@ class Request extends \yii\db\ActiveRecord
         return [
             'PK_Request' => 'Pk Request',
             'RequestNum' => 'Номер заявки',
-            'PK_Sender' => 'PK_Sender',
+            'PK_Sender' => 'Отправитель',
             'PK_Receiver' => 'Получатель',
             'PK_Trip' => 'Рейс',
             'PK_PortReceive' => 'Порт назначения',
@@ -97,6 +97,12 @@ class Request extends \yii\db\ActiveRecord
     {
         return $this->pKReceiver->FullName;
     }
+
+    public function getSenderFullName()
+    {
+        return $this->pKSender->FullName;
+    }
+
     /**
      * Gets query for [[PKReceiver]].
      *
