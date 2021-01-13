@@ -26,7 +26,7 @@
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'PK_Consignment',
-            'BookingDate',
+            'BookingDateFormatted',
             'TotalPriceInRubles',
             [
                 'attribute' => 'PK_Request',
