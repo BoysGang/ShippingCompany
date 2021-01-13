@@ -48,9 +48,9 @@ class Ship extends \yii\db\ActiveRecord
     {
         return [
             'PK_Ship' => 'Корабль',
-            'ShipNumber' => 'Ship Number',
+            'ShipNumber' => 'Номер корабля',
             'ShipName' => 'Название корабля',
-            'PK_ShipType' => 'Pk Ship Type',
+            'PK_ShipType' => 'Тип корабля',
         ];
     }
 
