@@ -214,20 +214,21 @@ public function console_log($data)
 
     //история контрактов определенного моряка
     //
-    public function actioncontractstory($id)
+    public function actionContractstory($id)
     {
-    	$fullName = CrewMember::find()->select('CrewMember.FullName')->where('PK_CrewMember' => $id)->one();
-    	$this->console_log($fullName);
+        $query = 'select "FullName" from "CrewMember" where "PK_CrewMember" = '. $id .';';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+        $fullName = $data['FullName'];
     	//получение источников данных для всех контрактов
 		//с предварительным получением запросов
-		$query = Contract::find()->where('PK_CrewMember' => $id);
+		$query = Contract::find()->where(['PK_CrewMember' => $id]);
 		$dataProvider = new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
 		        'pageSize' => 10,
 		    	],
 		]);
-    	return $this->render('contracts',[
+    	return $this->render('contractstory',[
     		'fullName' => $fullName,
     		'dataProvider' => $dataProvider,
     	]);

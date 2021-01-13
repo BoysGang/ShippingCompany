@@ -17,6 +17,7 @@
 	</ul>
 </div>
 
+<h1>Контракты</h1>
 
 <?= GridView::widget([
         'dataProvider' => $dataProvider,

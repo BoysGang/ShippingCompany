@@ -12,7 +12,7 @@
 		<?= Html::a('Контракты', ['hremployee/contracts'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
   	  <li class="nav-item">
-		<?= Html::a('Истекающие контракты', ['client/expiredcontracts'], ['class' => 'btn-secondary btn-lg']) ?>
+		<?= Html::a('Истекающие контракты', ['hremployee/expiredcontracts'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
 	</ul>
 </div>
