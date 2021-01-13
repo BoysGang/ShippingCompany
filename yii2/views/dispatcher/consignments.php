@@ -6,7 +6,6 @@
     use yii\grid\GridView;
 
 ?>
-
 <div class="horizontalMenu">
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
@@ -21,28 +20,41 @@
 	</ul>
 </div>
 
-<h1>Заявки пользователей:</h1>
+<h1>Коносаменты:</h1>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'PK_Trip',
+            'PK_Consignment',
+            'BookingDate',
+            'TotalPriceInRubles',
             [
-                'attribute' =>'PK_PortSend',
-                'value' => 'PortSendName'
-        	],
-        	[
-                'attribute' => 'PK_PortReceive',
-                'value' => 'PortReceiveName'
+                'attribute' => 'PK_Request',
+                'value' => function($model)
+                {
+                    return $model->pKRequest->RequestNum;
+                }
             ],
             [
-                'attribute' => 'PK_Sender',
-                'value' => 'SenderFullName'
+                'attribute' => 'PK_Booker',
+                'value' => function($model)
+                {
+                    if ($model->pKBooker)
+                        return $model->pKBooker->FullName;
+                    else
+                        return '-';
+                }
             ],
             [
-                'attribute' =>'PK_Receiver',
-                'value' => 'ReceiverFullName'
-        	],
+                'attribute' => 'PK_Dispatcher',
+                'value' => function($model)
+                {
+                    if ($model->pKDispatcher)
+                        return $model->pKDispatcher->FullName;
+                    else
+                        return '-';
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view}',

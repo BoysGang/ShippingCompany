@@ -51,12 +51,12 @@ class Consignment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_Consignment' => 'Pk Consignment',
-            'BookingDate' => 'Booking Date',
-            'TotalPrice' => 'Total Price',
-            'PK_Request' => 'Pk Request',
-            'PK_Booker' => 'Pk Booker',
-            'PK_Dispatcher' => 'Pk Dispatcher',
+            'PK_Consignment' => 'Номер коносамента',
+            'BookingDate' => 'Дата бронирования',
+            'TotalPrice' => 'Общая стоимость',
+            'PK_Request' => 'Номер заявки',
+            'PK_Booker' => 'Бухгалтер',
+            'PK_Dispatcher' => 'Диспетчер',
         ];
     }
 
@@ -88,5 +88,11 @@ class Consignment extends \yii\db\ActiveRecord
     public function getPKRequest()
     {
         return $this->hasOne(Request::className(), ['PK_Request' => 'PK_Request']);
+    }
+
+    public function getTotalPriceInRubles()
+    {
+        $strCost = str_replace('?', ' руб.', $this->TotalPrice);
+        return $strCost;
     }
 }
