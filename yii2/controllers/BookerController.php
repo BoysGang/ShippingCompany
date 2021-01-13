@@ -69,4 +69,21 @@ class BookerController extends Controller
 			'dataProvider' => $dataProvider,
 		]);
 	}
+
+	public function actionViewreporttrip($id)
+	{
+		$query = Route::find()->where(['PK_Trip' => $id]);
+		
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'pagination' => [
+		        'pageSize' => 20,
+	    	],
+		]);
+
+        return $this->render('viewreporttrip', [
+            'model' => Trip::find()->where(["PK_Trip" => $id])->one(),
+            'dataProvider' => $dataProvider
+        ]);
+	}
 }

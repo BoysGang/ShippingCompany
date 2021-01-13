@@ -43,7 +43,7 @@
             'buttons' =>[
             	'view' => function ($url, $model)
             	{
-            		$url = Url::to(['booker/viewtrip', 'id' => $model->PK_Trip]);
+            		$url = Url::to(['booker/viewreporttrip', 'id' => $model->PK_Trip]);
             		return Html::a('Подробнее..', $url, ['title' => 'view']);
             	}
             ]],
