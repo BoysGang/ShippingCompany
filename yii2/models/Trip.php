@@ -60,7 +60,10 @@ class Trip extends \yii\db\ActiveRecord
             'PK_Ship' => 'Корабль',
             'ShipName' => 'Корабль',
             'FirstPort' => 'Порт отправки',
-            'LastPort' => 'Порт назначения'
+            'LastPort' => 'Порт назначения',
+            'CostInRubles' => 'Общие затраты',
+            'Profit' => "Доходы",
+            'NetProfit' => "Прибыль",
         ];
     }
 
@@ -128,5 +131,49 @@ class Trip extends \yii\db\ActiveRecord
     public function getActiveTrips()
     {
         return Yii::$app->db->createCommand('select * from "Trip" where "DateDeparture" - now() > cast(\'14 days\' as interval)')->queryAll();
+    }
+
+    public function getCostInRubles()
+    {
+        $strCost = str_replace('?', ' руб.', $this->Cost);
+        return $strCost;
+    }
+
+    public function getProfit()
+    {
+        $query = 'select sum(con."TotalPrice") from "Request" r
+                  left join "Consignment" con on r."PK_Request" = con."PK_Request"
+                  where r."PK_Trip" =' . $this->PK_Trip . 'and r."RequestStatus" = \'Accepted\';';
+        
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+
+        if ($data['sum'] == null)
+            return "0 руб.";
+        
+        $strCost = str_replace('?', ' руб.', $data['sum']);
+        return $strCost;
+    }
+
+    public function getNetProfit()
+    {
+        $profit = $this->moneyToFloat($this->getProfit());
+        $cost = $this->moneyToFloat($this->Cost);
+        
+        $query = "select moneysubstraction(money(" . $profit . "), money(" . $cost . "));";
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+
+        $netProfit = str_replace('?', ' руб.', $data['moneysubstraction']);
+
+        return $netProfit;
+    }
+
+    private function moneyToFloat($money)
+    {
+        // Это разные пробелы!
+        $money = str_replace(['?', 'руб.', ' ', ' '], '', $money);
+        $money = str_replace(',', '.', $money);
+        $money = floatval($money);
+
+        return $money;
     }
 }

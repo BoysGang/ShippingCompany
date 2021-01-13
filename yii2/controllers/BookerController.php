@@ -8,11 +8,65 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
 
+use app\models\Trip;
+use app\models\Route;
+
 class BookerController extends Controller
 {
-	//action render page Index
-	public function actionIndex()
+	public function actionSchedule()
+	{	
+		$query = Trip::find()
+			->select('Trip.*, Route.*')
+			->leftJoin('Route', '"Route"."PK_Trip" = "Trip"."PK_Trip"')
+			->where(['>', 'DateDeparture', date("Y-m-d H:i:s")]);
+		
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => [
+			'pageSize' => 20,
+			],
+		]);
+
+		return $this->render('schedule', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
+
+	public function actionViewtrip($id)
 	{
-		return $this->render('index');
+		$query = Route::find()->where(['PK_Trip' => $id]);
+		
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'pagination' => [
+		        'pageSize' => 20,
+	    	],
+		]);
+
+        return $this->render('viewtrip', [
+            'model' => Trip::find()->where(["PK_Trip" => $id])->one(),
+            'dataProvider' => $dataProvider
+        ]);
+	}
+
+	public function actionReports() {
+		$date = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "-30 days"));
+
+		$query = Trip::find()
+			->select('Trip.*, Route.*')
+			->leftJoin('Route', '"Route"."PK_Trip" = "Trip"."PK_Trip"')
+			->where(['>=', 'DateDeparture', $date])
+			->andWhere(['<=', 'DateDeparture', date("Y-m-d H:i:s")]);
+		
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => [
+			'pageSize' => 20,
+			],
+		]);
+
+		return $this->render('reports', [
+			'dataProvider' => $dataProvider,
+		]);
 	}
 }
