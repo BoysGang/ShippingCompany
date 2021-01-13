@@ -73,10 +73,10 @@ class SiteController extends Controller
                   return Yii::$app->runAction('client/schedule');
                   break;
                 case 'Dispatcher':
-                  return Yii::$app->runAction('dispatcher/index');
+                  return Yii::$app->runAction('dispatcher/requests');
                   break;
                 case 'Booker':
-                  return Yii::$app->runAction('booker/index');
+                  return Yii::$app->runAction('booker/schedule');
                   break;
                 case 'Hremployee':
                   return Yii::$app->runAction('hremployee/index');

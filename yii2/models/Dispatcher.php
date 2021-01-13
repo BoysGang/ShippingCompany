@@ -65,5 +65,9 @@ class Dispatcher extends \yii\db\ActiveRecord
     {
         $strPrice = str_replace('?', ' руб.', $this->Salary);
         return $strPrice;
+
+    public function getPersonnelnum()
+    {
+        return $this->PersonnelNum;
     }
 }
