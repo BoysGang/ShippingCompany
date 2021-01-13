@@ -67,6 +67,7 @@ class Booker extends \yii\db\ActiveRecord
     {
         $strPrice = str_replace('?', ' руб.', $this->Salary);
         return $strPrice;
+    }
 
     public function getFullname()
     {
