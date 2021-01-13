@@ -38,8 +38,8 @@ class CrewMember extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_CrewMember' => 'Pk Crew Member',
-            'FullName' => 'Full Name',
+            'PK_CrewMember' => 'Член экипажа',
+            'FullName' => 'Полное имя',
         ];
     }
 

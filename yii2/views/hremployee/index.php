@@ -118,3 +118,35 @@
             ]
         ],
     ]); ?>
+
+
+<hr>
+<h2> Члены экипажа судов:  </h2>
+<p>
+    <?= Html::a('Добавить члена экипажа', ['createcrewmember'], ['class' => 'btn btn-success']) ?>
+</p>
+<?= GridView::widget([
+        'dataProvider' => $dataProviderCM,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'FullName',
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{update} {delete}',
+            'buttons' =>[
+                'delete' => function ($url, $model)
+                {
+                    $url = Url::to(['hremployee/deletecrewmember', 'id' => $model->PK_CrewMember]);
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
+                    ['title' => 'delete',
+                     'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
+                     'data-method' => 'post',]);
+                },
+                'update' => function ($url, $model)
+                {
+                    $url = Url::to(['hremployee/updatecrewmember', 'id' => $model->PK_CrewMember]);
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
+                }
+                ],
+            ]
+        ],
+    ]); ?>

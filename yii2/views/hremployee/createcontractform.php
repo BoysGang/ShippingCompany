@@ -6,6 +6,8 @@ use \yii\helpers\ArrayHelper;
 use \yii\jui\DatePicker;
 
 use app\models\CrewMember;
+use app\models\Ship;
+use app\models\CrewPosition;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Contract */
@@ -23,6 +25,8 @@ use app\models\CrewMember;
 	<?= $form->field($model, 'DateExpiration')->widget(DatePicker::classname(), ['language' => 'ru', 'dateFormat' => 'yyyy-MM-dd']) ?>
 
 	<?= $form->field($model, 'PK_Ship')->dropDownList(ArrayHelper::map(Ship::find()->all(), 'PK_Ship', 'ShipNumName')) ?>
+
+	<?= $form->field($model, 'PK_CrewPosition')->dropDownList(ArrayHelper::map(CrewPosition::find()->all(), 'PK_CrewPosition', 'CrewPositionName')) ?>
 
     <?= $form->field($model, 'Salary')->textInput() ?>
 
