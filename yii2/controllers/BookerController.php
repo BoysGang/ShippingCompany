@@ -13,7 +13,6 @@ use app\models\Route;
 
 class BookerController extends Controller
 {
-	//action render page Index
 	public function actionSchedule()
 	{	
 		$query = Trip::find()
@@ -48,5 +47,26 @@ class BookerController extends Controller
             'model' => Trip::find()->where(["PK_Trip" => $id])->one(),
             'dataProvider' => $dataProvider
         ]);
+	}
+
+	public function actionReports() {
+		$date = date("Y-m-d H:i:s", strtotime(date("Y-m-d H:i:s") . "-30 days"));
+
+		$query = Trip::find()
+			->select('Trip.*, Route.*')
+			->leftJoin('Route', '"Route"."PK_Trip" = "Trip"."PK_Trip"')
+			->where(['>=', 'DateDeparture', $date])
+			->andWhere(['<=', 'DateDeparture', date("Y-m-d H:i:s")]);
+		
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => [
+			'pageSize' => 20,
+			],
+		]);
+
+		return $this->render('reports', [
+			'dataProvider' => $dataProvider,
+		]);
 	}
 }

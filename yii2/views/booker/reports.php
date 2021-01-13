@@ -17,7 +17,7 @@
 	</ul>
 </div>
 
-<h1>Расписание рейсов:</h1>
+<h1>Отчеты о доходности рейсов:</h1>
     </script>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,7 +27,9 @@
             'PK_Trip',
             'FirstPort',
             'LastPort',
+            'Profit',
             'CostInRubles',
+            'NetProfit',
             'UnitPriceRubles',
             'DateDeparture',
             'DateArrival',
