@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\validators\UniqueValidator;
 
 /**
  * This is the model class for table "Booker".
@@ -30,9 +31,10 @@ class Booker extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FullName', 'PersonnelNum', 'Salary'], 'required'],
             [['Salary'], 'number'],
             [['FullName'], 'string', 'max' => 100],
-            [['PersonnelNum'], 'string', 'max' => 20],
+            [['PersonnelNum'], 'unique'],
         ];
     }
 
@@ -43,9 +45,10 @@ class Booker extends \yii\db\ActiveRecord
     {
         return [
             'PK_Booker' => 'Бухгалтер',
-            'FullName' => 'Full Name',
-            'PersonnelNum' => 'Personnel Num',
+            'FullName' => 'Полное имя',
+            'PersonnelNum' => 'Табельный номер',
             'Salary' => 'Salary',
+            'SalaryRubles' => 'Заработная плата',
         ];
     }
 
@@ -58,6 +61,12 @@ class Booker extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Consignment::className(), ['PK_Booker' => 'PK_Booker']);
     }
+
+
+    public function getSalaryRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->Salary);
+        return $strPrice;
 
     public function getFullname()
     {

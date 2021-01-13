@@ -30,9 +30,10 @@ class HREmployee extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FullName', 'PersonnelNum', 'Salary'], 'required'],
             [['Salary'], 'number'],
             [['FullName'], 'string', 'max' => 100],
-            [['PersonnelNum'], 'string', 'max' => 20],
+            [['PersonnelNum'], 'unique'],
         ];
     }
 
@@ -43,9 +44,10 @@ class HREmployee extends \yii\db\ActiveRecord
     {
         return [
             'PK_HREmployee' => 'Pk Hr Employee',
-            'FullName' => 'Full Name',
-            'PersonnelNum' => 'Personnel Num',
+            'FullName' => 'Полное имя',
+            'PersonnelNum' => 'Табельный номер',
             'Salary' => 'Salary',
+            'SalaryRubles' => 'Заработная плата'
         ];
     }
 
@@ -57,5 +59,11 @@ class HREmployee extends \yii\db\ActiveRecord
     public function getContracts()
     {
         return $this->hasMany(Contract::className(), ['PK_HREmployee' => 'PK_HREmployee']);
+    }
+
+    public function getSalaryRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->Salary);
+        return $strPrice;
     }
 }

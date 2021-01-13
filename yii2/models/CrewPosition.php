@@ -38,8 +38,8 @@ class CrewPosition extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'PK_CrewPosition' => 'Pk Crew Position',
-            'CrewPositionName' => 'Crew Position Name',
+            'PK_CrewPosition' => 'Должность',
+            'CrewPositionName' => 'Должность',
         ];
     }
 

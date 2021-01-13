@@ -30,9 +30,10 @@ class Dispatcher extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['FullName', 'PersonnelNum', 'Salary'], 'required'],
             [['Salary'], 'number'],
             [['FullName'], 'string', 'max' => 100],
-            [['PersonnelNum'], 'string', 'max' => 20],
+            [['PersonnelNum'], 'unique'],
         ];
     }
 
@@ -43,9 +44,10 @@ class Dispatcher extends \yii\db\ActiveRecord
     {
         return [
             'PK_Dispatcher' => 'Pk Dispatcher',
-            'FullName' => 'Full Name',
-            'PersonnelNum' => 'Personnel Num',
+            'FullName' => 'Полное имя',
+            'PersonnelNum' => 'Табельный номер',
             'Salary' => 'Salary',
+            'SalaryRubles' => 'Заработная плата',
         ];
     }
 
@@ -58,6 +60,11 @@ class Dispatcher extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Consignment::className(), ['PK_Dispatcher' => 'PK_Dispatcher']);
     }
+
+    public function getSalaryRubles()
+    {
+        $strPrice = str_replace('?', ' руб.', $this->Salary);
+        return $strPrice;
 
     public function getPersonnelnum()
     {
