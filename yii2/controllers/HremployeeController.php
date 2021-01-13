@@ -225,7 +225,7 @@ public function console_log($data)
 		$dataProvider = new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
-		        'pageSize' => 10,
+		        'pageSize' => 20,
 		    	],
 		]);
     	return $this->render('contractstory',[
@@ -234,9 +234,54 @@ public function console_log($data)
     	]);
     }
 
+    //Контракты с истекающими сроками
+    //которые еще не были перезаключены
     public function actionExpiredcontracts()
     {
+    	$query = 'select * from "Contract" c
+    			where c."DateExpiration" - now() < cast(\'30 days\' as interval) and c."DateExpiration" >= now()
+    			and c."DateExpiration" = (
+    			select max("DateExpiration") from "Contract" con where con."PK_CrewMember" = c."PK_CrewMember")';
 
-    	return $this->render('expiredcontracts');
+		$dataProvider = new ActiveDataProvider([
+		    'query' => Contract::findBySql($query),
+		    'pagination' => [
+		        'pageSize' => 20,
+		    	],
+		]);
+
+    	return $this->render('expiredcontracts',
+    		['dataProvider' => $dataProvider]);
+    }
+
+    //перезаключение контракта
+    //по его первичному ключу
+    public function actionExtendcontract($id)
+    {
+    	$modelOld = Contract::find()->where(["PK_Contract" => $id])->one();
+    	$model = new Contract();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
+        }
+
+        return $this->render('extendcontract', [
+            'model' => $model,
+            'modelOld' => $modelOld,
+        ]);
+    }
+
+
+    public function actionCreatecontract()
+    {
+    	$model = new Contract();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
+        }
+
+        return $this->render('createcontract', [
+            'model' => $model,
+        ]);
     }
 }
