@@ -58,7 +58,7 @@ class Route extends \yii\db\ActiveRecord
             'IsFirst' => 'Is First',
             'IsLast' => 'Is Last',
             'State' => 'State',
-            'PK_Trip' => 'Pk Trip',
+            'PK_Trip' => 'Рейс',
             'PK_PortReceive' => 'Порт отправки',
             'PK_PortSend' => 'Порт назначения',
         ];

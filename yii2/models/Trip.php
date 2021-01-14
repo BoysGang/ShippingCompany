@@ -52,8 +52,8 @@ class Trip extends \yii\db\ActiveRecord
     {
         return [
             'PK_Trip' => 'Номер рейса',
-            'Cost' => 'Cost',
-            'UnitPrice' => 'UnitPrice',
+            'Cost' => 'Стоимость рейса',
+            'UnitPrice' => 'Цена за 1 кг. груза',
             'UnitPriceRubles' => 'Цена за 1кг груза',
             'DateDeparture' => 'Дата отправки',
             'DateArrival' => 'Дата прибытия',
@@ -144,12 +144,12 @@ class Trip extends \yii\db\ActiveRecord
         $query = 'select sum(con."TotalPrice") from "Request" r
                   left join "Consignment" con on r."PK_Request" = con."PK_Request"
                   where r."PK_Trip" =' . $this->PK_Trip . 'and r."RequestStatus" = \'Accepted\';';
-        
+
         $data = Yii::$app->db->createCommand($query)->queryOne();
 
         if ($data['sum'] == null)
             return "0 руб.";
-        
+
         $strCost = str_replace('?', ' руб.', $data['sum']);
         return $strCost;
     }
@@ -158,7 +158,7 @@ class Trip extends \yii\db\ActiveRecord
     {
         $profit = $this->moneyToFloat($this->getProfit());
         $cost = $this->moneyToFloat($this->Cost);
-        
+
         $query = "select moneysubstraction(money(" . $profit . "), money(" . $cost . "));";
         $data = Yii::$app->db->createCommand($query)->queryOne();
 
