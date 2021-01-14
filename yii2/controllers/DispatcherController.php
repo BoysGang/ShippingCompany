@@ -196,7 +196,9 @@ class DispatcherController extends Controller
 	    	],
 		]);
 
-		return $this->actionAddroute($PK_Trip);
+		return $this->render('consignments', [
+			'dataProvider' => $dataProvider,
+		]);
 	}
 
 	public function actionViewrequest($id)
