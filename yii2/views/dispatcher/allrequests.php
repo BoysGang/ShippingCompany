@@ -3,7 +3,7 @@
 	use yii\helpers\Html;
 	use yii\helpers\Url;
 	use yii\bootstrap\Nav;
-	use yii\grid\GridView;
+    use yii\grid\GridView;
 
 ?>
 
@@ -30,40 +30,38 @@
 	</ul>
 </div>
 
-<h1>Список морских судов:</h1>
-<p>
-	<?= Html::a('Добавить', ['createship'], ['class' => 'btn btn-success']) ?>
-</p>
+<h1>Все заявки пользователей:</h1>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'ShipNumber',
-            'ShipName',
+            'PK_Trip',
             [
-              'attribute' => 'PK_ShipType',
-              'value' => function($model){
-                return $model->pKShipType->ShipTypeName;
-              }
-             ],
+                'attribute' =>'PK_PortSend',
+                'value' => 'PortSendName'
+        	],
+        	[
+                'attribute' => 'PK_PortReceive',
+                'value' => 'PortReceiveName'
+            ],
+            [
+                'attribute' => 'PK_Sender',
+                'value' => 'SenderFullName'
+            ],
+            [
+                'attribute' =>'PK_Receiver',
+                'value' => 'ReceiverFullName'
+          ],
+          'RequestStatus',
+
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{update} {delete}',
+            'template' => '{view}',
             'buttons' =>[
-            	'delete' => function ($url, $model)
-            	{
-            		$url = Url::to(['dispatcher/deleteship', 'id' => $model->PK_Ship]);
-            		return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
-            		['title' => 'delete',
-            		 'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
-            		 'data-method' => 'post',]);
-            	},
-            	'update' => function ($url, $model)
-            	{
-            		$url = Url::to(['dispatcher/updateship', 'id' => $model->PK_Ship]);
-                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
-            	}
-        		]],
+                'view' => function ($url, $model)
+                {
+                    $url = Url::to(['dispatcher/viewallrequest', 'id' => $model->PK_Request]);
+                    return Html::a('Подробности', $url, ['title' => 'view']);
+                }],
+            ]
         ],
-    ]);
-    ?>
+    ]); ?>

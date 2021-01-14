@@ -10,7 +10,10 @@
 <div class="horizontalMenu">
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-		<?= Html::a('Заявки', ['dispatcher/requests'], ['class' => 'btn-secondary btn-lg']) ?>
+		<?= Html::a('Все заявки', ['dispatcher/allrequests'], ['class' => 'btn-secondary btn-lg']) ?>
+	  </li>
+      <li class="nav-item">
+		<?= Html::a('Новые заявки', ['dispatcher/requests'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
 	  <li class="nav-item">
 		<?= Html::a('Расписание', ['dispatcher/schedule'], ['class' => 'btn-secondary btn-lg']) ?>
@@ -21,10 +24,13 @@
       <li class="nav-item">
 		<?= Html::a('Морские суда', ['dispatcher/ships'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
+	  <li class="nav-item">
+		<?= Html::a('Типы судов', ['dispatcher/shiptypes'], ['class' => 'btn-secondary btn-lg']) ?>
+	  </li>
 	</ul>
 </div>
 
-<h1>Заявки пользователей:</h1>
+<h1>Новые заявки пользователей:</h1>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [

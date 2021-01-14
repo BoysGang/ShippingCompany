@@ -18,6 +18,7 @@ use app\models\Consignment;
 use app\models\Booker;
 use app\models\Ship;
 use app\models\Route;
+use app\models\ShipType;
 
 class DispatcherController extends Controller
 {
@@ -33,6 +34,22 @@ class DispatcherController extends Controller
 		echo "<script>";
 		echo "alert(" . json_encode($string) . ")";
 		echo "</script>";
+	}
+
+	public function actionAllrequests()
+	{
+		$query = Request::find();
+
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('allrequests', [
+			'dataProvider' => $dataProvider,
+		]);
 	}
 
 	public function actionRequests()
@@ -143,6 +160,22 @@ class DispatcherController extends Controller
         ]);
 	}
 
+	public function actionViewallrequest($id)
+	{
+		$query = RequestLine::find()->where(['PK_Request' => $id]);
+        $dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'pagination' => [
+		        'pageSize' => 20,
+	    	],
+		]);
+
+        return $this->render('viewallrequest', [
+			'requestModel' => Request::find()->where(["PK_Request" => $id])->one(),
+            'dataProvider' => $dataProvider
+        ]);
+	}
+
 	public function actionCreateconsignment($PK_Request)
 	{
 		if (Yii::$app->request->post())
@@ -229,6 +262,21 @@ class DispatcherController extends Controller
 		]);
 	}
 
+	public function actionShiptypes() {
+		$query = ShipType::find();
+
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('shiptypes', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
+
 	/*
 
 	Работа с кораблем: добавление, удаление, изменение
@@ -243,7 +291,7 @@ class DispatcherController extends Controller
             return $this->redirect('ships');
         }
 
-        return $this->render('createship', [
+        return $this->render('ship/createship', [
             'model' => $model,
         ]);
     }
@@ -266,7 +314,49 @@ class DispatcherController extends Controller
             return $this->redirect('ships');
         }
 
-        return $this->render('updateship', [
+        return $this->render('ship/updateship', [
+            'model' => $model,
+        ]);
+	}
+	
+	/*
+
+	Работа с типом корабля: добавление, удаление, изменение
+
+	*/
+	// Добавить корабль
+    public function actionCreateshiptype()
+    {
+        $model = new ShipType();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('shiptypes');
+        }
+
+        return $this->render('shiptype/createshiptype', [
+            'model' => $model,
+        ]);
+    }
+
+    // Удалить корабль
+    public function actionDeleteshiptype($id)
+    {
+        $query = 'delete from "ShipType" where "PK_ShipType" = '. $id .';';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+
+        return $this->redirect(['shiptypes']);
+    }
+
+    // Изменить корабль
+    public function actionUpdateshiptype($id)
+    {
+        $model = ShipType::find()->where(['PK_ShipType' => $id])->one();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('shiptypes');
+        }
+
+        return $this->render('shiptype/updateshiptype', [
             'model' => $model,
         ]);
     }
