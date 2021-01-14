@@ -17,6 +17,9 @@
       <li class="nav-item">
 		<?= Html::a('Коносаменты', ['dispatcher/consignments'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
+      <li class="nav-item">
+		<?= Html::a('Морские суда', ['dispatcher/ships'], ['class' => 'btn-secondary btn-lg']) ?>
+	  </li>
 	</ul>
 </div>
 
@@ -26,7 +29,7 @@
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'PK_Consignment',
-            'BookingDate',
+            'BookingDateFormatted',
             'TotalPriceInRubles',
             [
                 'attribute' => 'PK_Request',

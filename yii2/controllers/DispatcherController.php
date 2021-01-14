@@ -15,6 +15,7 @@ use app\models\Trip;
 use app\models\RequestLine;
 use app\models\Consignment;
 use app\models\Booker;
+use app\models\Ship;
 
 class DispatcherController extends Controller
 {
@@ -170,4 +171,61 @@ class DispatcherController extends Controller
 
 		return $this->actionViewrequest($PK_Request);
 	}
+
+	public function actionShips() {
+		$query = Ship::find();
+
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('ships', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
+
+	/*
+
+	Работа с кораблем: добавление, удаление, изменение
+
+	*/
+	// Добавить корабль
+    public function actionCreateship()
+    {
+        $model = new Ship();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('ships');
+        }
+
+        return $this->render('createship', [
+            'model' => $model,
+        ]);
+    }
+
+    // Удалить корабль
+    public function actionDeleteship($id)
+    {
+        $query = 'delete from "Ship" where "PK_Ship" = '. $id .';';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+
+        return $this->redirect(['ships']);
+    }
+
+    // Изменить корабль
+    public function actionUpdateship($id)
+    {
+        $model = Ship::find()->where(['PK_Ship' => $id])->one();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('ships');
+        }
+
+        return $this->render('updateship', [
+            'model' => $model,
+        ]);
+    }
 }

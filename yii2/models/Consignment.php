@@ -57,6 +57,8 @@ class Consignment extends \yii\db\ActiveRecord
             'PK_Request' => 'Номер заявки',
             'PK_Booker' => 'Бухгалтер',
             'PK_Dispatcher' => 'Диспетчер',
+            'TotalPriceInRubles' => 'Общая стоимость',
+            'BookingDateFormatted' => 'Дата бронирования'
         ];
     }
 
@@ -94,5 +96,10 @@ class Consignment extends \yii\db\ActiveRecord
     {
         $strCost = str_replace('?', ' руб.', $this->TotalPrice);
         return $strCost;
+    }
+
+    public function getBookingDateFormatted()
+    {
+        return explode('.', $this->BookingDate)[0];
     }
 }
