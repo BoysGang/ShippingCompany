@@ -46,7 +46,7 @@ class Dispatcher extends \yii\db\ActiveRecord
             'PK_Dispatcher' => 'Pk Dispatcher',
             'FullName' => 'Полное имя',
             'PersonnelNum' => 'Табельный номер',
-            'Salary' => 'Salary',
+            'Salary' => 'Заработная плата',
             'SalaryRubles' => 'Заработная плата',
         ];
     }

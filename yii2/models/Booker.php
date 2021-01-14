@@ -47,7 +47,7 @@ class Booker extends \yii\db\ActiveRecord
             'PK_Booker' => 'Бухгалтер',
             'FullName' => 'Полное имя',
             'PersonnelNum' => 'Табельный номер',
-            'Salary' => 'Salary',
+            'Salary' => 'Заработная плата',
             'SalaryRubles' => 'Заработная плата',
         ];
     }
