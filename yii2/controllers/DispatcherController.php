@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 use app\models\Request;
 use app\models\Dispatcher;
@@ -16,6 +17,7 @@ use app\models\RequestLine;
 use app\models\Consignment;
 use app\models\Booker;
 use app\models\Ship;
+use app\models\Route;
 use app\models\ShipType;
 
 class DispatcherController extends Controller
@@ -82,6 +84,46 @@ class DispatcherController extends Controller
 			'dataProvider' => $dataProvider,
 		]);
 	}
+
+	public function actionViewtrip($id)
+	{
+		$query = Route::find()->where(['PK_Trip' => $id]);
+        $dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'pagination' => [
+		        'pageSize' => 20,
+	    	],
+		]);
+
+        return $this->render('viewtrip', [
+            'model' => Trip::find()->where(["PK_Trip" => $id])->one(),
+            'dataProvider' => $dataProvider
+        ]);
+	}
+
+	//добавление рейса в расписание
+	public function actionCreatetrip($modelsRoute = [])
+	{
+		$this->alert(count($modelsRoute));
+		$curModel = new Route();
+
+		if($curModel->load(Yii::$app->request->post()))
+		{
+			$modelsRoute[] = $curModel;
+			//Route::$foo += 1;
+
+		}
+
+		//$this->alert($this->currentIndex);
+
+		$dataProvider = new ArrayDataProvider(['allModels' => $modelsRoute]);
+
+		return $this->render('createtrip',
+			['dataProvider' => $dataProvider,
+			 'model' => $curModel,
+			 'modelsRoute' => $modelsRoute]);
+	}
+
 
 	public function actionConsignments()
 	{
@@ -153,14 +195,14 @@ class DispatcherController extends Controller
 				->where(['PK_Request' => $PK_Request])->one()->PK_Consignment;
 
 			//Trying accept a consignment
-			$query = 'select checkdispatcher(' 
-				. $PK_Dispatcher 
-				. ', ' 
-				. $PK_Booker 
-				. ', ' 
-				. $PK_Consignment 
-				. ', ' 
-				. 'true' 
+			$query = 'select checkdispatcher('
+				. $PK_Dispatcher
+				. ', '
+				. $PK_Booker
+				. ', '
+				. $PK_Consignment
+				. ', '
+				. 'true'
 				. ');';
 
 			if (Yii::$app->db->createCommand($query)->queryOne()['checkdispatcher'])
@@ -188,14 +230,14 @@ class DispatcherController extends Controller
 			->where(['PK_Request' => $PK_Request])->one()->PK_Consignment;
 
 		//Decline a consignment
-		$query = 'select checkdispatcher(' 
-			. $PK_Dispatcher 
-			. ', ' 
+		$query = 'select checkdispatcher('
+			. $PK_Dispatcher
+			. ', '
 			. '2'
-			. ', ' 
-			. $PK_Consignment 
-			. ', ' 
-			. 'false' 
+			. ', '
+			. $PK_Consignment
+			. ', '
+			. 'false'
 			. ');';
 
 		Yii::$app->db->createCommand($query)->execute();

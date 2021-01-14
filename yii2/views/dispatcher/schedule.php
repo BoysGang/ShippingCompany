@@ -31,7 +31,11 @@
 </div>
 
 <h1>Расписание рейсов:</h1>
-    </script>
+
+<p>
+    <?= Html::a('Добавить рейс', ['createtrip'], ['class' => 'btn btn-success']) ?>
+</p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -53,7 +57,7 @@
             'buttons' =>[
             	'view' => function ($url, $model)
             	{
-            		$url = Url::to(['client/viewtrip', 'id' => $model->PK_Trip]);
+            		$url = Url::to(['dispatcher/viewtrip', 'id' => $model->PK_Trip]);
             		return Html::a('Подробнее..', $url, ['title' => 'view']);
             	}
             ]],
