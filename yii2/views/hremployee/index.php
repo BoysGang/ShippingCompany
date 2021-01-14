@@ -2,6 +2,7 @@
 	use yii\helpers\Html;
     use yii\helpers\Url;
 	use yii\grid\GridView;
+    use yii\widgets\Pjax;
 ?>
 <div class="horizontalMenu">
 	<ul class="nav nav-tabs">
@@ -25,6 +26,7 @@
 <p>
 	<?= Html::a('Добавить диспетчера', ['createdispatcher'], ['class' => 'btn btn-success']) ?>
 </p>
+<?php Pjax::begin(); ?>
 <?= GridView::widget([
         'dataProvider' => $dataProviderDP,
         'columns' => [
@@ -52,12 +54,13 @@
             ]
         ],
     ]); ?>
-
+<?php Pjax::end(); ?>
 <hr>
 <h2> Бухгалтеры: </h2>
 <p>
 	<?= Html::a('Добавить бухгалтера', ['createbooker'], ['class' => 'btn btn-success']) ?>
 </p>
+<?php Pjax::begin(); ?>
 <?= GridView::widget([
         'dataProvider' => $dataProviderBK,
         'columns' => [
@@ -85,12 +88,14 @@
             ],
         ],
     ]); ?>
+<?php Pjax::end(); ?>
 
 <hr>
 <h2> Кадровики:  </h2>
 <p>
 	<?= Html::a('Добавить кадровика', ['createhremployee'], ['class' => 'btn btn-success']) ?>
 </p>
+<?php Pjax::begin(); ?>
 <?= GridView::widget([
         'dataProvider' => $dataProviderHR,
         'columns' => [
@@ -119,12 +124,14 @@
         ],
     ]); ?>
 
+<?php Pjax::end(); ?>
 
 <hr>
 <h2> Члены экипажа судов:  </h2>
 <p>
     <?= Html::a('Добавить члена экипажа', ['createcrewmember'], ['class' => 'btn btn-success']) ?>
 </p>
+<?php Pjax::begin(); ?>
 <?= GridView::widget([
         'dataProvider' => $dataProviderCM,
         'columns' => [
@@ -150,3 +157,4 @@
             ]
         ],
     ]); ?>
+<?php Pjax::end(); ?>
