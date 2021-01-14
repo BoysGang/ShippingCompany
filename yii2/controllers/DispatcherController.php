@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 use Yii;
+
+use yii\db\Query;
+
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -101,28 +104,85 @@ class DispatcherController extends Controller
         ]);
 	}
 
-	//добавление рейса в расписание
-	public function actionCreatetrip($modelsRoute = [])
-	{
-		$this->alert(count($modelsRoute));
-		$curModel = new Route();
 
-		if($curModel->load(Yii::$app->request->post()))
-		{
-			$modelsRoute[] = $curModel;
-			//Route::$foo += 1;
 
-		}
+    public function actionCreatetrip()
+    {
+    	$model = new Trip();
+        if ($model->load(Yii::$app->request->post())) {
+        	$model->DateArrival = $model->DateDeparture;
+        	$model->save();
 
-		//$this->alert($this->currentIndex);
+        	//получение PK Trip
+            return $this->actionAddroute($model->PK_Trip);
+        }
 
-		$dataProvider = new ArrayDataProvider(['allModels' => $modelsRoute]);
+        return $this->render('createtrip', [
+            'model' => $model,
+        ]);
+    }
 
-		return $this->render('createtrip',
-			['dataProvider' => $dataProvider,
-			 'model' => $curModel,
-			 'modelsRoute' => $modelsRoute]);
-	}
+    public function actionAddroute($PK_Trip)
+    {
+    	$model = new Route();
+
+    	if($model->load(Yii::$app->request->post()))
+    	{
+        	$_POST = Yii::$app->request->post()['Route'];
+
+        	$query = 'insert into "Route" ("TimeDuration", "IsFirst", "IsLast", "State", "PK_Trip", "PK_PortSend", "PK_PortReceive") values
+	        	(\''. $_POST['TimeDuration'] . '\', ' .
+	        	'false, ' .
+				'false, ' .
+				'false, ' .
+				$PK_Trip. ', ' .
+	        	$_POST['PK_PortSend']  . ', ' .
+	        	$_POST['PK_PortReceive'] . ');';
+	        //выполнение запроса
+        	Yii::$app->db->createCommand($query)->execute();
+    	}
+
+		$query = Route::find()->where(['PK_Trip' => $PK_Trip]);
+        $dataProvider = new ActiveDataProvider([
+	    'query' => $query,
+	    'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+    	return $this->render('routecreate', [
+    		'PK_Trip' => $PK_Trip,
+    		'model' => $model,
+    		'dataProvider' => $dataProvider,
+    	]);
+    }
+
+    public function actionAddtrip($id)
+    {
+    	$dateArrival = date("Y-m-d H:i:s", strtotime(Trip::find()->where(["PK_Trip" => $id])->one()->DateDeparture));
+
+    	$query = new Query();
+    	$data = $query->select('*')->from('"Route"')->where(['"PK_Trip"' => $id])->all();
+
+    	/*расчет даты прибытия*/
+    	foreach ($data as $var) {
+    		$strMass = explode(' ', $var['TimeDuration']);
+    		$dateArrival = date("Y-m-d H:i:s", strtotime($dateArrival . "+" . $strMass[0]  . $strMass[1]));
+    	}
+
+    	$query = 'update "Trip" set "DateArrival" = \'' . $dateArrival . '\' where "PK_Trip" = ' . $id;
+    	Yii::$app->db->createCommand($query)->execute();
+
+
+    	$query = 'update "Route" set "IsFirst" = true where "PK_Route" = ' . $data[0]['PK_Route'] ;
+    	Yii::$app->db->createCommand($query)->execute();
+
+    	$query = 'update "Route" set "IsLast" = true where "PK_Route" = ' . $data[count($data) - 1]['PK_Route'] ;
+    	Yii::$app->db->createCommand($query)->execute();
+
+
+    	return $this->actionViewtrip($id);
+    }
 
 
 	public function actionConsignments()
@@ -136,9 +196,7 @@ class DispatcherController extends Controller
 	    	],
 		]);
 
-		return $this->render('consignments', [
-			'dataProvider' => $dataProvider,
-		]);
+		return $this->actionAddroute($PK_Trip);
 	}
 
 	public function actionViewrequest($id)
@@ -318,7 +376,7 @@ class DispatcherController extends Controller
             'model' => $model,
         ]);
 	}
-	
+
 	/*
 
 	Работа с типом корабля: добавление, удаление, изменение
@@ -360,4 +418,5 @@ class DispatcherController extends Controller
             'model' => $model,
         ]);
     }
+
 }
