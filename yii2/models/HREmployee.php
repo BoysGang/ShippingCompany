@@ -46,7 +46,7 @@ class HREmployee extends \yii\db\ActiveRecord
             'PK_HREmployee' => 'Pk Hr Employee',
             'FullName' => 'Полное имя',
             'PersonnelNum' => 'Табельный номер',
-            'Salary' => 'Salary',
+            'Salary' => 'Заработная плата',
             'SalaryRubles' => 'Заработная плата'
         ];
     }
