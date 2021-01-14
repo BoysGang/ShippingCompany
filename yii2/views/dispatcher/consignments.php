@@ -6,10 +6,14 @@
     use yii\grid\GridView;
 
 ?>
+
 <div class="horizontalMenu">
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-		<?= Html::a('Заявки', ['dispatcher/requests'], ['class' => 'btn-secondary btn-lg']) ?>
+		<?= Html::a('Все заявки', ['dispatcher/allrequests'], ['class' => 'btn-secondary btn-lg']) ?>
+	  </li>
+      <li class="nav-item">
+		<?= Html::a('Новые заявки', ['dispatcher/requests'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
 	  <li class="nav-item">
 		<?= Html::a('Расписание', ['dispatcher/schedule'], ['class' => 'btn-secondary btn-lg']) ?>

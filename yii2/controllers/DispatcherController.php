@@ -33,6 +33,22 @@ class DispatcherController extends Controller
 		echo "</script>";
 	}
 
+	public function actionAllrequests()
+	{
+		$query = Request::find();
+
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('allrequests', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
+
 	public function actionRequests()
 	{
 		$query = Request::find()->where(['RequestStatus' => 'verifying']);
@@ -97,6 +113,22 @@ class DispatcherController extends Controller
         return $this->render('viewrequest', [
 			'requestModel' => Request::find()->where(["PK_Request" => $id])->one(),
 			'bookerModel' => $bookerModel,
+            'dataProvider' => $dataProvider
+        ]);
+	}
+
+	public function actionViewallrequest($id)
+	{
+		$query = RequestLine::find()->where(['PK_Request' => $id]);
+        $dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+		    'pagination' => [
+		        'pageSize' => 20,
+	    	],
+		]);
+
+        return $this->render('viewallrequest', [
+			'requestModel' => Request::find()->where(["PK_Request" => $id])->one(),
             'dataProvider' => $dataProvider
         ]);
 	}

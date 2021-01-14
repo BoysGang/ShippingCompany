@@ -27,7 +27,7 @@
 	</ul>
 </div>
 
-<h1>Новые заявки пользователей:</h1>
+<h1>Все заявки пользователей:</h1>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -48,14 +48,15 @@
             [
                 'attribute' =>'PK_Receiver',
                 'value' => 'ReceiverFullName'
-        	],
+          ],
+          'RequestStatus',
 
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view}',
             'buttons' =>[
                 'view' => function ($url, $model)
                 {
-                    $url = Url::to(['dispatcher/viewrequest', 'id' => $model->PK_Request]);
+                    $url = Url::to(['dispatcher/viewallrequest', 'id' => $model->PK_Request]);
                     return Html::a('Подробности', $url, ['title' => 'view']);
                 }],
             ]

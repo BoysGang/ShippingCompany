@@ -32,19 +32,3 @@ use app\models\Booker;
             ['class' => 'yii\grid\ActionColumn', 'template' => ''],
         ],
     ]); ?>
-
-<div class="request-form">
-
-    <?php $form = ActiveForm::begin(['action' =>['dispatcher/createconsignment', 'PK_Request' => $requestModel->PK_Request], 'method' => 'post',]); ?>
-
-    <?= $form->field($bookerModel, 'PK_Booker')->dropDownList(ArrayHelper::map(Booker::find()->all(), 'PK_Booker', 'FullName')) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Принять заявку', ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <?= Html::a('Отклонить заявку', ['dispatcher/declinerequest', 'PK_Request' => $requestModel->PK_Request], ['class'=>'btn btn-danger']) ?>
-
-</div>
