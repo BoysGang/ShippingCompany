@@ -24,6 +24,9 @@
       <li class="nav-item">
 		<?= Html::a('Морские суда', ['dispatcher/ships'], ['class' => 'btn-secondary btn-lg']) ?>
 	  </li>
+	  <li class="nav-item">
+		<?= Html::a('Типы судов', ['dispatcher/shiptypes'], ['class' => 'btn-secondary btn-lg']) ?>
+	  </li>
 	</ul>
 </div>
 

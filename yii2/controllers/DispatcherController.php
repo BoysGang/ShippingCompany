@@ -16,6 +16,7 @@ use app\models\RequestLine;
 use app\models\Consignment;
 use app\models\Booker;
 use app\models\Ship;
+use app\models\ShipType;
 
 class DispatcherController extends Controller
 {
@@ -219,6 +220,21 @@ class DispatcherController extends Controller
 		]);
 	}
 
+	public function actionShiptypes() {
+		$query = ShipType::find();
+
+		$dataProvider = new ActiveDataProvider([
+		    'query' => $query,
+	    	'pagination' => [
+	        'pageSize' => 20,
+	    	],
+		]);
+
+		return $this->render('shiptypes', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
+
 	/*
 
 	Работа с кораблем: добавление, удаление, изменение
@@ -233,7 +249,7 @@ class DispatcherController extends Controller
             return $this->redirect('ships');
         }
 
-        return $this->render('createship', [
+        return $this->render('ship/createship', [
             'model' => $model,
         ]);
     }
@@ -256,7 +272,49 @@ class DispatcherController extends Controller
             return $this->redirect('ships');
         }
 
-        return $this->render('updateship', [
+        return $this->render('ship/updateship', [
+            'model' => $model,
+        ]);
+	}
+	
+	/*
+
+	Работа с типом корабля: добавление, удаление, изменение
+
+	*/
+	// Добавить корабль
+    public function actionCreateshiptype()
+    {
+        $model = new ShipType();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('shiptypes');
+        }
+
+        return $this->render('shiptype/createshiptype', [
+            'model' => $model,
+        ]);
+    }
+
+    // Удалить корабль
+    public function actionDeleteshiptype($id)
+    {
+        $query = 'delete from "ShipType" where "PK_ShipType" = '. $id .';';
+        $data = Yii::$app->db->createCommand($query)->queryOne();
+
+        return $this->redirect(['shiptypes']);
+    }
+
+    // Изменить корабль
+    public function actionUpdateshiptype($id)
+    {
+        $model = ShipType::find()->where(['PK_ShipType' => $id])->one();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('shiptypes');
+        }
+
+        return $this->render('shiptype/updateshiptype', [
             'model' => $model,
         ]);
     }

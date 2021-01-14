@@ -3,7 +3,7 @@
 	use yii\helpers\Html;
 	use yii\helpers\Url;
 	use yii\bootstrap\Nav;
-    use yii\grid\GridView;
+	use yii\grid\GridView;
 
 ?>
 
@@ -30,38 +30,42 @@
 	</ul>
 </div>
 
-<h1>Все заявки пользователей:</h1>
+<h1>Типы морских судов:</h1>
+<p>
+	<?= Html::a('Добавить', ['dispatcher/createshiptype'], ['class' => 'btn btn-success']) ?>
+</p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'PK_Trip',
-            [
-                'attribute' =>'PK_PortSend',
-                'value' => 'PortSendName'
-        	],
-        	[
-                'attribute' => 'PK_PortReceive',
-                'value' => 'PortReceiveName'
-            ],
-            [
-                'attribute' => 'PK_Sender',
-                'value' => 'SenderFullName'
-            ],
-            [
-                'attribute' =>'PK_Receiver',
-                'value' => 'ReceiverFullName'
-          ],
-          'RequestStatus',
 
+			'ShipTypeName',
+			'CarryingCapacity',
+			'AmountCaptains',
+			'AmountCaptainHelpers',
+			'AmountCooks',
+			'AmountMechanics',
+			'AmountElectricians',
+			'AmountSailors',
+			'AmountRadioOperators',
+            
             ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view}',
+            'template' => '{update} {delete}',
             'buttons' =>[
-                'view' => function ($url, $model)
-                {
-                    $url = Url::to(['dispatcher/viewallrequest', 'id' => $model->PK_Request]);
-                    return Html::a('Подробности', $url, ['title' => 'view']);
-                }],
-            ]
+            	'delete' => function ($url, $model)
+            	{
+            		$url = Url::to(['dispatcher/deleteshiptype', 'id' => $model->PK_ShipType]);
+            		return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url,
+            		['title' => 'delete',
+            		 'data-confirm' => Yii::t('yii', 'Вы уверены что хотите удалить элемент?'),
+            		 'data-method' => 'post',]);
+            	},
+            	'update' => function ($url, $model)
+            	{
+            		$url = Url::to(['dispatcher/updateshiptype', 'id' => $model->PK_ShipType]);
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>',  $url);
+            	}
+        		]],
         ],
-    ]); ?>
+    ]);
+    ?>
