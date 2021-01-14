@@ -50,15 +50,15 @@ class ShipType extends \yii\db\ActiveRecord
     {
         return [
             'PK_ShipType' => 'Pk Ship Type',
-            'ShipTypeName' => 'Ship Type Name',
-            'CarryingCapacity' => 'Carrying Capacity',
-            'AmountCaptains' => 'Amount Captains',
-            'AmountCaptainHelpers' => 'Amount Captain Helpers',
-            'AmountCooks' => 'Amount Cooks',
-            'AmountMechanics' => 'Amount Mechanics',
-            'AmountElectricians' => 'Amount Electricians',
-            'AmountSailors' => 'Amount Sailors',
-            'AmountRadioOperators' => 'Amount Radio Operators',
+            'ShipTypeName' => 'Тип',
+            'CarryingCapacity' => 'Грузоподъемность',
+            'AmountCaptains' => 'Капитанов',
+            'AmountCaptainHelpers' => 'Помощников капитана',
+            'AmountCooks' => 'Поваров',
+            'AmountMechanics' => 'Механиков',
+            'AmountElectricians' => 'Электриков',
+            'AmountSailors' => 'Матросов',
+            'AmountRadioOperators' => 'Радиосвязистов',
         ];
     }
 
